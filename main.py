@@ -352,8 +352,16 @@ if __name__ == '__main__':
 
     # Calculate total, with validated inputs
 
-    total = pipeline([{'product_code': code_input,
+    try:
+        total = pipeline([{'product_code': code_input,
                        'order_units': quantity_input}])
+    except:
+        print('There was an issue with the order quantity or product code. Ensure the product code is valid or increment order quantity')
+        total = None
 
     # Print total
-    print('The total is {0:.2f}'.format(total))
+    if total:
+        if total == 0:
+            print('The total is {0:.2f}. You should try incrementing your order to purchase a bundle'.format(total))
+        else:
+            print('The total is {0:.2f}. Your order has been optimised with no remaining units'.format(total))
